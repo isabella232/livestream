@@ -1,12 +1,15 @@
 import {path as ffmpegPath} from '@ffmpeg-installer/ffmpeg';
-import {ffmpeg} from 'fluent-ffmpeg';
+import * as FfmpegCommand from 'fluent-ffmpeg';
 import {Duplex} from 'stream';
 import { RevAiStreamingClient, AudioConfig } from 'revai-node-sdk';
 import * as chalk from 'chalk';
-import {properties} from '/config/properties';
+import {properties} from '../../config/properties';
+
+
+
 
 export class Recognize {
-    private readonly token: string;
+    private token: string;
     private audioConfig: AudioConfig;
     private client: RevAiStreamingClient;
     private io: any;
@@ -14,9 +17,14 @@ export class Recognize {
 
     constructor(){
         this.setDefaultAudioConfig();
-        this.token = properties.revAIToken;
+        this.setAccessToken(properties.revAIToken);
         this.initStreamingClient(this.token,this.audioConfig);
         this.initStream();
+        FfmpegCommand.setFfmpegPath(ffmpegPath);
+    }
+
+    public setAccessToken(token:string){
+        this.token = token
     }
 
     public initStreamingClient(token, audioConfig){
@@ -77,9 +85,11 @@ export class Recognize {
                         }
                     }
                 }
-                process.stdout.write(chalk.blue(`${finalText}\n`));
+
                 if(finalText !== ""){
-                    io.emit('NewText_1', finalText);
+                    process.stdout.write(chalk.red(`${finalText}\n`));
+                    console.log("Sending via SOCKET");
+                    this.io.emit('NewText_1',finalText);
                 }
             }catch (e) {
                 console.error(e);
@@ -89,7 +99,7 @@ export class Recognize {
     }
 
     public startRecognizeStream (io:any, streamID:string, streamURL: string){
-        ffmpeg(streamURL)
+        FfmpegCommand(streamURL)
             .on('start', () => {
                 this.setSocketIO(io);
                 console.log("ffmpeg : processing Started");
@@ -114,7 +124,4 @@ export class Recognize {
             .output(this.stream)
             .run();
     }
-
-
-
 }

@@ -9,7 +9,7 @@ export class MediaServer {
     }
 
     private setDefaultConfig(){
-        this.config = {
+        this.setConfig({
             rtmp: {
                 port: 1935,
                 chunk_size: 60000,
@@ -40,10 +40,10 @@ export class MediaServer {
                     }
                 ]
             }
-        };
+        });
     }
 
-    public updateConfig(config:any){
+    public setConfig(config:any){
         this.config = config;
     }
 

@@ -23,20 +23,11 @@
         let socket = io();
         socket.emit('START_STREAM_1',streamID);
 
-        socket.on('NewText_1', json => {
-            let toneSpans = "";
-            let tones = json.tones;
-            if(tones.length > 0){
-                for(let i = 0; i < tones.length; i++){
-                    let tone = tones[i];
-                    toneSpans += `<span class="tone ${tone.tone_id}">${tone.tone_name}</span>&nbsp;&nbsp;`;
-                }
-            }
-
+        socket.on('NewText_1', text => {
+            console.log("Got text from sock ",text);
 
             $('#subs').append(`<div class="w3-container w3-light-grey" style="padding-bottom: 11px;">
-                                    <p class="w3-justify">${json.text}</p>
-                                    ${toneSpans}
+                                    <p class="w3-justify">${text}</p>
                                </div><br>`);
 
             $('#subs').scrollTop($('#subs')[0].scrollHeight);
