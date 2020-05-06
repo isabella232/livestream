@@ -8,7 +8,7 @@ class App {
     constructor() {
         this.app = express();
         new AppConfig(this.app);
-        new Router().routes(this.app);
+        new Router(this.app);
     }
 }
 export default new App().app;
