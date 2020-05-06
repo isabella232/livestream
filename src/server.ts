@@ -1,4 +1,17 @@
 import app from "./app";
+import {Recognize} from "./speechRecognition/revAI/recognize";
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+let revAIStream = new Recognize();
+
+io.on('connection', socket => {
+    socket.on('START_STREAM_1', (streamID) => {
+        console.log('streamID via socket ' + streamID);
+        revAIStream.startRecognizeStream(io,streamID, `http://meetpriyesh.com:8000/live/${streamID}/index.m3u8`);
+    });
+});
 
 
 const PORT = normalizePort(process.env.PORT || '3000');

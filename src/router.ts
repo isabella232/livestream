@@ -9,6 +9,11 @@ export class Router {
                 })
             });
 
+        app.route('/z/')
+            .get((req: Request, res: Response) => {
+                res.sendFile(__dirname + '/static/index.html');
+            });
+
         //new LeadRoutes(app);
 
     }

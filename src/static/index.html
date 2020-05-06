@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Live</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script>
+    $(() => {
+
+        let query = location.href.split("?")[1];
+        let params = query.split("&");
+        let streamID = 0;
+
+        params.forEach((param, index) => {
+            let key = param.split("=")[0];
+            let value = param.split("=")[1];
+            if (key === "id") streamID = value;
+        });
+
+        let socket = io();
+        socket.emit('START_STREAM_1',streamID);
+
+        socket.on('NewText_1', json => {
+            let toneSpans = "";
+            let tones = json.tones;
+            if(tones.length > 0){
+                for(let i = 0; i < tones.length; i++){
+                    let tone = tones[i];
+                    toneSpans += `<span class="tone ${tone.tone_id}">${tone.tone_name}</span>&nbsp;&nbsp;`;
+                }
+            }
+
+
+            $('#subs').append(`<div class="w3-container w3-light-grey" style="padding-bottom: 11px;">
+                                    <p class="w3-justify">${json.text}</p>
+                                    ${toneSpans}
+                               </div><br>`);
+
+            $('#subs').scrollTop($('#subs')[0].scrollHeight);
+        });
+    });
+</script>
+
+<style>
+    .tone{
+        padding: 4px;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 10px;
+        margin-bottom: 5px;
+    }
+    .anger{
+        background-color: #C30000;
+    }
+    .fear{
+        background-color: #000000;
+    }
+    .joy{
+        background-color: #41F163;
+    }
+    .analytical{
+        background-color: #0046B4;
+    }
+    .sadness{
+        background-color: #969FBD;
+    }
+    .confident{
+        background-color: #FFE300;
+    }
+    .tentative{
+        background-color: #8C0064;
+    }
+
+</style>
+
+<body>
+
+<div class="w3-light-grey w3-padding-34 w3-margin-bottom w3-center">
+    <h1>Live</h1>
+</div>
+
+<div class="w3-row-padding w3-content" style="max-width:1400px">
+    <div class="w3-twothird">
+        <video id="videoElement" autoplay controls style="width: 100%"></video>
+        <script>
+            if (flvjs.isSupported()) {
+                let query = location.href.split("?")[1];
+                let params = query.split("&");
+                let streamID = 0;
+
+                params.forEach((param, index) => {
+                    let key = param.split("=")[0];
+                    let value = param.split("=")[1];
+                    if (key === "id") streamID = value;
+                });
+                let videoElement = document.getElementById('videoElement');
+                let flvPlayer = flvjs.createPlayer({
+                    type: 'flv',
+                    url: `http://meetpriyesh.com:8000/live/${streamID}.flv`
+                });
+                flvPlayer.attachMediaElement(videoElement);
+                flvPlayer.load();
+                flvPlayer.play();
+            }
+        </script>
+        <div class="w3-justify">
+            <p></p>
+        </div>
+    </div>
+    <div id="subs" class="w3-third" style="height: 500px; overflow-y: auto">
+        <br>
+    </div>
+</div>
+
+</body>
+</html>
