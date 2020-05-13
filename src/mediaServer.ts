@@ -20,7 +20,7 @@ export class MediaServer {
                 ping_timeout: 60
             },
             http: {
-                port: 8001,
+                port: 8000,
                 mediaroot: './media',
                 allow_origin: '*'
             },
