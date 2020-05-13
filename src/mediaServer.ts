@@ -23,7 +23,7 @@ export class MediaServer {
                 allow_origin: '*'
             },
             trans: {
-                //ffmpeg: '/usr/bin/ffmpeg',
+                ffmpeg: 'ffmpeg',
                 tasks: [
                     {
                         app: 'live',
