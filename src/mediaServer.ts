@@ -1,5 +1,6 @@
 import * as NodeMediaServer from 'node-media-server';
 const Ffmpeg = require('@ffmpeg-installer/ffmpeg');
+const path = require('path');
 
 export class MediaServer {
     private config:any;
@@ -21,7 +22,7 @@ export class MediaServer {
             },
             http: {
                 port: 8000,
-                mediaroot: './media',
+                mediaroot: path.resolve(__dirname, './../media'),
                 allow_origin: '*'
             },
             trans: {
