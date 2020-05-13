@@ -12,7 +12,7 @@ server.listen(PORT, () => {
 
 io.on('connection', socket => {
     socket.on('START_STREAM_1', (streamID) => {
-        console.log('streamID via socket ' + streamID);
+        console.log('streamID via socket ' + streamID );
         revAIStream.startRecognizeStream(io,streamID,`https://zoomlivestreaming.herokuapp.com:8000/live/${streamID}/index.m3u8`);
     });
 });
