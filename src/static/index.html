@@ -90,7 +90,7 @@
                 let videoElement = document.getElementById('videoElement');
                 let flvPlayer = flvjs.createPlayer({
                     type: 'flv',
-                    url: `http://localhost:8000/live/${streamID}.flv`
+                    url: `http://zoomlivestreaming.herokuapp.com:8000/live/${streamID}.flv`
                 });
                 flvPlayer.attachMediaElement(videoElement);
                 flvPlayer.load();
