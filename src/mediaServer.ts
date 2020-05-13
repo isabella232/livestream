@@ -1,4 +1,6 @@
 import * as NodeMediaServer from 'node-media-server';
+const Ffmpeg = require('@ffmpeg-installer/ffmpeg');
+
 export class MediaServer {
     private config:any;
     private nms: NodeMediaServer;
@@ -22,24 +24,24 @@ export class MediaServer {
                 mediaroot: './media',
                 allow_origin: '*'
             },
-            // trans: {
-            //     ffmpeg: '/usr/bin/ffmpeg',
-            //     tasks: [
-            //         {
-            //             app: 'live',
-            //             vc: "copy",
-            //             vcParam: [],
-            //             ac: "aac",
-            //             acParam: ['-ab', '64k', '-ac', '1', '-ar', '16000'],
-            //             rtmp:true,
-            //             rtmpApp:'live2',
-            //             hls: true,
-            //             hlsFlags: '[hls_time=2:hls_list_size=3:hls_flags=delete_segments]',
-            //             dash: true,
-            //             dashFlags: '[f=dash:window_size=3:extra_window_size=5]'
-            //         }
-            //     ]
-            // }
+            trans: {
+                ffmpeg: Ffmpeg.path,
+                tasks: [
+                    {
+                        app: 'live',
+                        vc: "copy",
+                        vcParam: [],
+                        ac: "aac",
+                        acParam: ['-ab', '64k', '-ac', '1', '-ar', '16000'],
+                        rtmp:true,
+                        rtmpApp:'live2',
+                        hls: true,
+                        hlsFlags: '[hls_time=2:hls_list_size=3:hls_flags=delete_segments]',
+                        dash: true,
+                        dashFlags: '[f=dash:window_size=3:extra_window_size=5]'
+                    }
+                ]
+            }
         });
     }
 
