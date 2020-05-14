@@ -13,5 +13,14 @@ export class Router {
             .get((req: Request, res: Response) => {
                 res.sendFile(__dirname + '/static/index.html');
             });
+
+        app.route('/live/:streamId').get((req: Request, res: Response) => {
+            console.log("request stream id",req.param('streamId'))
+            res.writeHead(302, {
+                Location: 'rtmp://localhost/live/' + req.param('streamId')
+            });
+            res.end(); 
+        });
+            
     }
 }
