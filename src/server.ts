@@ -13,7 +13,7 @@ server.listen(PORT, () => {
 io.on('connection', socket => {
     socket.on('START_STREAM_1', (streamID) => {
         console.log('streamID via socket ' + streamID);
-        revAIStream.startRecognizeStream(io,streamID,`rtmp://zoomlivestreaming.herokuapp.com/live/${streamID}`);
+        revAIStream.startRecognizeStream(io,streamID,`rtmp://localhost/live/${streamID}`);
     });
 });
 
