@@ -4,6 +4,7 @@ import {Duplex} from 'stream';
 import { RevAiStreamingClient, AudioConfig } from 'revai-node-sdk';
 import * as chalk from 'chalk';
 import {properties} from '../../config/properties';
+const fs = require('fs');
 
 
 
@@ -118,7 +119,7 @@ export class Recognize {
                 '-acodec pcm_s16le',
                 '-vn',
                 '-ac 1',
-                '-ar 16k',
+                '-ar 8k',
                 '-map_metadata -1'
             ])
             .output(this.stream)

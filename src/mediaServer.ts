@@ -13,16 +13,17 @@ export class MediaServer {
 
     private setDefaultConfig(){
         this.setConfig({
+            logType: 3,
             rtmp: {
                 port: 1935,
-                chunk_size: 60000,
+                chunk_size: 4096,
                 gop_cache: true,
-                ping: 30,
-                ping_timeout: 60
+                ping: 1,
+                ping_timeout: 1
             },
             http: {
                 port: 8000,
-                mediaroot: path.resolve(__dirname, './../media'),
+                mediaroot: './../media',
                 allow_origin: '*'
             },
             trans: {
@@ -32,12 +33,11 @@ export class MediaServer {
                         app: 'live',
                         vc: "copy",
                         vcParam: [],
-                        ac: "aac",
                         acParam: ['-ab', '64k', '-ac', '1', '-ar', '16000'],
                         rtmp:true,
                         rtmpApp:'live2',
                         hls: true,
-                        hlsFlags: '[hls_time=2:hls_list_size=3:hls_flags=delete_segments]',
+                        hlsFlags: '[hls_time=6:hls_list_size=3:hls_flags=delete_segments]',
                         dash: true,
                         dashFlags: '[f=dash:window_size=3:extra_window_size=5]'
                     }

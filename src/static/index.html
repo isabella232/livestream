@@ -21,8 +21,11 @@
         });
 
         let socket = io();
-        socket.emit('START_STREAM_1',streamID);
-
+        socket.on('connect', function() {
+            console.log("Client connected..... Starting stream");
+            socket.emit('START_STREAM_1', streamID);
+        });
+        
         socket.on('NewText_1', text => {
             console.log("Got text from sock ",text);
 
@@ -90,7 +93,7 @@
                 let videoElement = document.getElementById('videoElement');
                 let flvPlayer = flvjs.createPlayer({
                     type: 'flv',
-                    url: `http://localhost:8000/live/${streamID}.flv`
+                    url: `ws://localhost:8000/live/${streamID}.flv`
                 });
                 flvPlayer.attachMediaElement(videoElement);
                 flvPlayer.load();
